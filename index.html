@@ -462,8 +462,7 @@ footer h4{color:#fff;margin-bottom:8px}
     <div class="card">
       <h3>Still unconfirmed</h3>
       <ul class="clean">
-        <li>The dermatology follow-up date</li>
-        <li>Whether the triamcinolone ointment was sent to your pharmacy</li>
+                <li>Whether the triamcinolone ointment was sent to your pharmacy</li>
         <li>Whether to keep taking fluconazole</li>
         <li>The arthritis product you ordered online</li>
         <li>A rheumatology appointment</li>
@@ -474,7 +473,8 @@ footer h4{color:#fff;margin-bottom:8px}
       <h3>Settled since Sep 23</h3>
       <ul class="clean">
         <li>Dr. Jeck doesn't take your plan, so dermatology went to Specialists in Dermatology. You were seen Oct 1.</li>
-        <li>Infectious Disease: seen Sep 24, biopsy done, follow-up Oct 8.</li>
+        <li>Infectious Disease: seen Sep 24, biopsy done, follow-up Oct 8 at 10:00 AM.</li>
+        <li>Dermatology follow-up booked: Oct 8 at 12:15 PM.</li>
         <li>Rheumatology referral placed Sep 23.</li>
         <li>Baseline ECG and depression screen done Sep 23.</li>
         <li>Vitamin D switched to a weekly high dose and picked up Sep 23.</li>
@@ -618,6 +618,7 @@ var APPTS=[
  {id:"sudha",start:"2026-09-24T08:20:00-07:00",mins:20,arrive:"8:05 AM",title:"Infectious Disease consultation",who:"Sudha Nagalingam, MD",place:"Special Immunology Associates, El Rio Cherrybell",addr:CHERRY,phone:"520-628-8287",why:"Took two arm skin samples for stains and cultures; added a urine histoplasma test."},
  {id:"walker",start:"2026-10-01T12:15:00-07:00",mins:30,arrive:"12:00 PM",title:"Dermatology, new patient",who:"Jessica Walker, Specialists in Dermatology",place:"5th Street & Alvernon office",addr:"630 N Alvernon Way, Suite 180, Tucson AZ 85711",phone:"520-382-3330",why:"Biopsied a separate hand bump for possible skin cancer; held off on another arm biopsy until Dr. Sudha's results."},
  {id:"sudha2",start:"2026-10-08T10:00:00-07:00",mins:20,arrive:"9:45 AM",title:"Infectious Disease follow-up",who:"Sudha Nagalingam, MD",place:"Special Immunology Associates, El Rio Cherrybell",addr:CHERRY,phone:"520-628-8287",why:"Biopsy results from Sep 24, and whether to keep or change fluconazole."},
+ {id:"walker2",start:"2026-10-08T12:15:00-07:00",mins:30,arrive:"12:00 PM",title:"Dermatology follow-up",who:"Jessica Walker, Specialists in Dermatology",place:"5th Street & Alvernon office",addr:"630 N Alvernon Way, Suite 180, Tucson AZ 85711",phone:"520-382-3330",why:"Hand biopsy results, and whether the arm needs a deeper punch biopsy after Dr. Sudha\u2019s results that morning. Cancel at least 48 hours ahead or there\u2019s a $50 fee."},
  {id:"jackson2",start:"2026-12-23T08:00:00-07:00",mins:20,arrive:"7:45 AM",title:"3-month follow-up",who:"Danelle Jackson, FNP",place:"SE Family Med",addr:GOLF,phone:"520-670-3909",why:"Vitamin D recheck after 12 weeks, cholesterol, urinary symptoms. Fasting labs about a week before."}
 ];
 function fmtDay(d){return d.toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric",timeZone:"America/Phoenix"})}
@@ -644,10 +645,7 @@ if(next){
   nc.innerHTML='<span class="chip c-flag">Nothing booked</span><div class="when">Check MyChart</div><p>Your listed appointments have passed. Look for new visits in MyChart, then send me a screenshot.</p><div class="btns"><a class="btn coral" href="tel:+15206703909">Call El Rio</a></div>';
 }
 var ag=$("#apptGrid");
-var dc=el("article",{class:"card appt",style:"border-color:var(--turq);border-width:2px"});
-dc.innerHTML='<span class="chip c-pend">Date to confirm</span><div class="date">Dermatology follow-up</div><h3>Jessica Walker, next week</h3><div class="meta"><span>Where</span><span>Specialists in Dermatology, 630 N Alvernon Way, Suite 180 (5th Street & Alvernon)</span><span>Phone</span><span><a href="tel:+15203823330">520-382-3330</a></span><span>Why</span><span>Hand biopsy results, and whether the arm needs a deeper punch biopsy after Dr. Sudha\u2019s results.</span><span>Watch</span><span>Make sure it doesn\u2019t overlap Dr. Sudha on Thu Oct 8 at 10 AM. Cancel at least 48 hours ahead or there\u2019s a $50 fee.</span></div><div class="btns"><a class="btn primary" href="tel:+15203823330">Call to confirm</a></div>';
-upcoming.forEach(function(a,i){ag.appendChild(apptCard(a,false));if(i===0)ag.appendChild(dc)});
-if(!upcoming.length)ag.appendChild(dc);
+upcoming.forEach(function(a){ag.appendChild(apptCard(a,false))});
 APPTS.filter(isPast).reverse().forEach(function(a){ag.appendChild(apptCard(a,true))});
 function apptCard(a,past){
   var d=new Date(a.start);
@@ -672,7 +670,7 @@ var hl=$("#history");HIST.forEach(function(h){hl.appendChild(el("li",null,'<div 
 /* ---- to-do ---- */
 var TODO=[
  {id:"results2",t:"Screenshot your new MyChart results",d:"El Rio texted new results on Sep 26, 28, 29 and 30, plus new letters. Send the screens so I can add them; your cocci titer may be among them.",tag:["Do now","c-flag"]},
- {id:"dermfu",t:"Confirm the dermatology follow-up date",d:"Jessica Walker wants to see you about a week after Oct 1. Call 520-382-3330 and make sure it doesn\u2019t clash with Dr. Sudha on Thu Oct 8 at 10 AM.",tag:["This week","c-pend"]},
+ {id:"oct8",t:"Thu Oct 8: two visits in one day",d:"Dr. Sudha at 10:00 AM (arrive 9:45, 1230 S Cherrybell Stravenue, Suite D), then dermatology at 12:15 PM (arrive 12:00, 630 N Alvernon Way, Suite 180). About two hours between. Bring Dr. Sudha\u2019s results to dermatology.",tag:["Next week","c-pend"]},
  {id:"sudha2",t:"Thu Oct 8, 10:00 AM: Dr. Sudha follow-up",d:"Arrive 9:45 at 1230 S Cherrybell Stravenue, Suite D. Biopsy results and the fluconazole decision.",tag:["Next visit","c-pend"]},
  {id:"fluq",t:"Keep taking fluconazole until Dr. Sudha says otherwise",d:"Don\u2019t stop on your own. Ask her directly on Oct 8 whether you still need it.",tag:null},
  {id:"vitd2",t:"Vitamin D: one 50,000 IU capsule, same day every week",d:"Started Sep 23 for 12 weeks. Pick a day and set a weekly phone alarm.",tag:null},
@@ -820,7 +818,7 @@ var Q=[
   ["Could the knuckle erosions come from the same infection?",""],
   ["Am I cleared to exercise? Should I wear gloves for yard work from now on?",""]
  ]},
- {id:"derm2",who:"Jessica Walker, Dermatology",when:"Next week",qs:[
+ {id:"derm2",who:"Jessica Walker, Dermatology",when:"Thu, Oct 8, 12:15 PM",qs:[
   ["What did the hand biopsy show? If it\u2019s cancer, when and where is Mohs?","Their Mohs office is at 2732 N Alvernon Way."],
   ["After Dr. Sudha\u2019s results, do you still want a punch biopsy of the arm?",""],
   ["How long should I use triamcinolone, and can I use it with clotrimazole?",""],
